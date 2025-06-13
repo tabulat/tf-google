@@ -35,13 +35,13 @@ resource "google_container_cluster" "this" {
 # Create a custom node pool for the GKE cluster
 resource "google_container_node_pool" "this" {
   # Name of the node pool
-  name       = var.GKE_POOL_NAME
+  name = var.GKE_POOL_NAME
   # GCP project to use (derived from the cluster)
-  project    = google_container_cluster.this.project
+  project = google_container_cluster.this.project
   # Attach node pool to the created cluster
-  cluster    = google_container_cluster.this.name
+  cluster = google_container_cluster.this.name
   # Location (region)
-  location   = google_container_cluster.this.location
+  location = google_container_cluster.this.location
   # Number of nodes in the pool
   node_count = var.GKE_NUM_NODES
 
@@ -58,8 +58,8 @@ module "gke_auth" {
     google_container_cluster.this
   ]
   # Source of the module (Terraform Registry)
-  source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
-  version      = ">= 24.0.0"
+  source  = "terraform-google-modules/kubernetes-engine/google//modules/auth"
+  version = ">= 24.0.0"
   # Project and cluster details for authentication
   project_id   = var.GOOGLE_PROJECT
   cluster_name = google_container_cluster.this.name
