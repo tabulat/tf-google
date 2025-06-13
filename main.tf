@@ -1,10 +1,3 @@
-module "gke_cluster" {
-  source         = "github.com/tabulat/tf-google"
-  GOOGLE_REGION  = var.GOOGLE_REGION
-  GOOGLE_PROJECT = var.GOOGLE_PROJECT
-  GKE_NUM_NODES  = 2
-}
-
 # Configure the Google Cloud provider
 provider "google" {
   project = var.GOOGLE_PROJECT
@@ -34,13 +27,9 @@ resource "google_container_cluster" "this" {
 
 # Create a custom node pool for the GKE cluster
 resource "google_container_node_pool" "this" {
-  # Name of the node pool
   name = var.GKE_POOL_NAME
-  # GCP project to use (derived from the cluster)
   project = google_container_cluster.this.project
-  # Attach node pool to the created cluster
   cluster = google_container_cluster.this.name
-  # Location (region)
   location = google_container_cluster.this.location
   # Number of nodes in the pool
   node_count = var.GKE_NUM_NODES
